@@ -22,6 +22,8 @@ public class BatchBuildWindow : EditorWindow
         public bool BuildMac;
         public bool BuildServers;
         public bool EnableSteam;
+
+        public bool UseIL2CPP;
         
         public void SetDefaults()
         {
@@ -36,6 +38,8 @@ public class BatchBuildWindow : EditorWindow
             BuildMac = true;
             BuildServers = false;
             EnableSteam = false;
+
+            UseIL2CPP = false;
         }
     }
 
@@ -101,7 +105,8 @@ public class BatchBuildWindow : EditorWindow
         EditorGUILayout.Separator();
 
         buildConfig.BuildServers = EditorGUILayout.Toggle("Bundle Server Build", buildConfig.BuildServers);
-
+        buildConfig.UseIL2CPP = EditorGUILayout.Toggle("Enable IL2CPP", buildConfig.UseIL2CPP);
+        
         EditorGUILayout.Separator();
 
         /* TODO: Support Steam SDK
@@ -156,6 +161,8 @@ public class BatchBuildWindow : EditorWindow
             options.scenes[i] = EditorBuildSettings.scenes[i].path;
         }
 
+        options.targetGroup = BuildTargetGroup.Standalone;
+
         options.options = BuildOptions.None;
 
         string outputDir = $"{buildConfig.BuildRootDirectory}/{subBuildPath}";
@@ -186,11 +193,18 @@ public class BatchBuildWindow : EditorWindow
         string platformExtension = GetPlatformExtension(target);
         options.target = target;
         options.locationPathName = $"{outputDir}/{buildConfig.Name}.{platformExtension}";
-
+        
         if (buildConfig.CopyFolder)
             DirectoryCopy(buildConfig.CopyFolderPath, outputDir + "/Bonus", true);
 
+        var oldScriptingBackend = PlayerSettings.GetScriptingBackend(options.targetGroup);
+        if (buildConfig.UseIL2CPP && DoPlatformSupportIL2CPP(options.target))
+        {
+            PlayerSettings.SetScriptingBackend(options.targetGroup, ScriptingImplementation.IL2CPP);
+        }
+        
         BuildPlatform(options);
+
         if (buildConfig.BuildServers)
         {
             outputDir += $"/server";
@@ -198,12 +212,14 @@ public class BatchBuildWindow : EditorWindow
             options.options |= BuildOptions.EnableHeadlessMode;
             BuildPlatform(options);
         }
+        
+        PlayerSettings.SetScriptingBackend(options.targetGroup, oldScriptingBackend);
     }
 
     private void BuildPlatform(BuildPlayerOptions options)
     {
-        Debug.Log("Build");
         BuildReport report = BuildPipeline.BuildPlayer(options);
+        
         BuildSummary summary = report.summary;
 
         if (summary.result == BuildResult.Succeeded)
@@ -287,6 +303,21 @@ public class BatchBuildWindow : EditorWindow
                 return "x86_64";
             default:
                 throw new Exception("Unhandled platform");
+        }
+    }
+
+    private bool DoPlatformSupportIL2CPP(BuildTarget target)
+    {
+        switch (target)
+        {
+            case BuildTarget.StandaloneOSX:
+                return false;
+            case BuildTarget.StandaloneWindows:
+            case BuildTarget.StandaloneWindows64:
+            case BuildTarget.StandaloneLinux64:
+                return true;
+            default:
+                return false;
         }
     }
 
