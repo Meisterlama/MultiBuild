@@ -13,10 +13,10 @@
 </p>
 <p align="center">
   <a href="package.json">
-    <img alt="Version" src="https://img.shields.io/github/package-json/v/OpenSourceUnityPackage/PackageTemplate">
+    <img alt="Version" src="https://img.shields.io/github/package-json/v/Meisterlama/MultiBuild">
   </a>
   <a href="#LastActivity">
-    <img alt="LastActivity" src="https://img.shields.io/github/last-commit/OpenSourceUnityPackage/PackageTemplate">
+    <img alt="LastActivity" src="https://img.shields.io/github/last-commit/Meisterlama/MultiBuild">
   </a>
 </p>
 
@@ -42,7 +42,7 @@ Follow these step to create package based on this template:
 ![Capture d’écran 2022-03-05 210916](https://user-images.githubusercontent.com/55276408/156898721-99195bf3-02c1-41f5-9bc8-483a9b65c55a.png)
 
 2: In this step, we need add information about package that will be used to generate your package thanks to github action.
-- Select the owner (by default you, if you want to create a package for this repository, please select OpenSourceUnityPackage). This repository name will be used to generate the package name.
+- Select the owner (by default you, if you want to create a package for this repository, please select Meisterlama). This repository name will be used to generate the package name.
 - Then enter your project name. This name is very important because it will be used to generate the package name inside unity. For example TestPackageUnity will become open-source-unity-package.test-package-unity according to unity convention.
 - Step 2, 3 and 4 are optional. You can add description, select public repository and include all branch (to include git flow).
 - Now click on "select repository from template" to done this process

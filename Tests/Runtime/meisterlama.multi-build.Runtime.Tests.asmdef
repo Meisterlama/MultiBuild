@@ -1,0 +1,11 @@
+{
+  "name": "meisterlama.multi-build.Tests",
+  "references": [
+    "meisterlama.multi-build.Runtime"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}

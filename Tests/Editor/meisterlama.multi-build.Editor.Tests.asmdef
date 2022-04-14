@@ -1,7 +1,8 @@
 {
-  "name": "[YourCompany].[YourPackageName].Tests",
+  "name": "meisterlama.multi-build.Editor.Tests",
   "references": [
-    "[YourCompany].[YourPackageName].Runtime"
+    "meisterlama.multi-build.Editor",
+    "meisterlama.multi-build.Runtime"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

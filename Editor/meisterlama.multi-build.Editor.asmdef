@@ -1,0 +1,10 @@
+{
+	"name": "meisterlama.multi-build.Editor",
+	"references": [
+		"meisterlama.multi-build.Runtime"
+	],
+	"includePlatforms": [
+		"Editor"
+	],
+	"excludePlatforms": []
+}
